@@ -1,8 +1,14 @@
 let pawnWhite;
 let pawnBlack;
+let rookWhite;
+let rookBlack;
+
 function preload() {
-    pawnWhite = loadImage("./sprites/pawnWhite.png")
-    pawnBlack = loadImage("./sprites/pawnBlack.png")
+    pawnWhite = loadImage("./sprites/pawnWhite.png");
+    pawnBlack = loadImage("./sprites/pawnBlack.png");
+
+    rookWhite = loadImage("./sprites/rookWhite.png");
+    rookBlack = loadImage("./sprites/rookBlack.png");
 }
 
 let pieces = [];
@@ -19,8 +25,9 @@ function setup() {
     }
 
     // Rooks
-    for (let i=0; i < 2; i++) {
-        
+    for (let i=0; i < 8; i+=7) {
+        pieces.push(new Rook("black", [i,0], rookBlack));
+        pieces.push(new Rook("white", [i,7], rookWhite));
     }
 
 }
