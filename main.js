@@ -1,55 +1,56 @@
+let pawnWhite;
+let pawnBlack;
+function preload() {
+    pawnWhite = loadImage("./sprites/pawnWhite.png")
+    pawnBlack = loadImage("./sprites/pawnBlack.png")
+}
 
-class Player {
-    constructor() {
-        this.delta = 0;
-        this.cam = createCamera();
-        
-        this.sensitivity = 0.01;
-        this.pan = 0;
-        this.tilt = 0;
-        this.pos = [0, 0, 0];
-        this.forward = 0;
+let pieces = [];
 
+function setup() {
+    createCanvas(850, 850);
+    noStroke();
+
+
+    // Pawns
+    for (let i=0; i < 8; i++) {
+        pieces.push(new Pawn("white", [i,6], pawnWhite));
+        pieces.push(new Pawn("black", [i,1], pawnBlack));
     }
 
-    draw() {
-
-        this.pan = (mouseX - pmouseX) * this.sensitivity;
-        this.tilt = (mouseY - pmouseY) * this.sensitivity;
-
-        this.cam.pan(-this.pan);
-        this.cam.tilt(this.tilt);
-        this.cam.setPosition(this.pos[0], this.pos[1], this.pos[2])
-
-        this.keyHandler();
-
+    // Rooks
+    for (let i=0; i < 2; i++) {
         
     }
 
-    keyHandler() {
-        // W - Forward
-        if (keyIsDown(87)) {
-            this.pos[2] -= 0.1
-        } 
-        // S - Backwards
-        else if (keyIsDown(83)) {
-            this.pos[2] += 0.1
+}
+
+
+
+function draw() {
+    background("#4a422f");
+    translate(25, 25);
+    drawBoard();
+
+    for (let i=0; i < pieces.length; i++) {
+        pieces[i].draw()
+    }
+    
+
+}
+
+function drawBoard() {
+    for (let x=0; x < 800; x+=100) {
+        for (let y=0; y < 800; y+=100) {
+            if ((x + y) % 200) {
+                fill(255);
+            } else {
+                fill("#759674");
+            }
+
+            rect(x, y, 100, 100);
         }
     }
 }
 
-let player;
-
-function setup() {
-    createCanvas(800, 600, WEBGL);
-    player = new Player();
-}
-
-function draw() {
-    background(220);
-    // noFill();
-    box(4, 4, 4, 4, 4);
-    lights();
-    player.draw();
-}
 
