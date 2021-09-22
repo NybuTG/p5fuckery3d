@@ -3,46 +3,43 @@ let pawnBlack;
 let rookWhite;
 let rookBlack;
 
-function preload() {
-    pawnWhite = loadImage("./sprites/pawnWhite.png");
-    pawnBlack = loadImage("./sprites/pawnBlack.png");
+let available = ["pawn", "rook", "knight", "king", "queen", "bishop"];
+let set = new Object();
+let pieces = new Array();
+let playerTurn = "white";
+let gridX;
+let gridY;
 
-    rookWhite = loadImage("./sprites/rookWhite.png");
-    rookBlack = loadImage("./sprites/rookBlack.png");
+function preload() {
+    for (let i=0; i < available.length; i++) {
+        let white = `${available[i]}White`;
+        let black = `${available[i]}Black`;
+
+        set[white.toString()] = loadImage(`./sprites/${white}.png`);
+        set[black.toString()] = loadImage(`./sprites/${black}.png`);
+    }
 }
 
-let pieces = [];
+
 
 function setup() {
     createCanvas(850, 850);
     noStroke();
-
-
-    // Pawns
-    for (let i=0; i < 8; i++) {
-        pieces.push(new Pawn("white", [i,6], pawnWhite));
-        pieces.push(new Pawn("black", [i,1], pawnBlack));
-    }
-
-    // Rooks
-    for (let i=0; i < 8; i+=7) {
-        pieces.push(new Rook("black", [i,0], rookBlack));
-        pieces.push(new Rook("white", [i,7], rookWhite));
-    }
-
+    defaultPos();
 }
 
-
-
 function draw() {
+
+    gridX = floor((mouseX - 25) / 100);
+    gridY = floor((mouseY - 25) / 100);
     background("#4a422f");
     translate(25, 25);
     drawBoard();
 
     for (let i=0; i < pieces.length; i++) {
-        pieces[i].draw()
+        pieces[i].update()
     }
-    
+
 
 }
 
@@ -60,4 +57,36 @@ function drawBoard() {
     }
 }
 
+function defaultPos() {
+    // Pawns
+    for (let i=0; i < 8; i++) {
+        pieces.push(new Pawn("white", [i,6]));
+        pieces.push(new Pawn("black", [i,1]));
+    }
 
+    // Rooks
+    for (let i=0; i < 8; i+=7) {
+        pieces.push(new Rook("black", [i,0]));
+        pieces.push(new Rook("white", [i,7]));
+    }
+
+    // Knights
+    for (let i=1; i < 7; i+=5) {
+        pieces.push(new Knight("black", [i,0]));
+        pieces.push(new Knight("white", [i,7]));
+    }
+
+    for (let i=2; i < 6; i+=3) {
+        pieces.push(new Bishop("black", [i,0]));
+        pieces.push(new Bishop("white", [i,7]));
+    }
+
+    // Queens
+    pieces.push(new Queen("black", [3,0]));
+    pieces.push(new Queen("white", [3,7]));
+
+    // Kings
+    pieces.push(new King("black", [4,0]));
+    pieces.push(new King("white", [4,7]));
+
+}
