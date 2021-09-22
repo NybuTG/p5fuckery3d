@@ -2,7 +2,6 @@ let pawnWhite;
 let pawnBlack;
 let rookWhite;
 let rookBlack;
-
 let available = ["pawn", "rook", "knight", "king", "queen", "bishop"];
 let set = new Object();
 let pieces = new Array();
@@ -41,6 +40,43 @@ function draw() {
     }
 
 
+    if (current == null) {
+        for (let i = 0; i < pieces.length; i++) {
+            if (pieces[i].lock === true) {
+                current = pieces[i];
+                break;
+            }
+        }
+    }
+
+}
+
+let current = null;
+
+function mouseDragged() {
+    if (current !== null) {
+        current.draw = false;
+        // rectMode(CENTER);
+        image(current.sprite, mouseX, mouseY, 100, 100);
+
+        current.pos[0] = gridX;
+        current.pos[1] = gridY;
+    }
+}
+
+function mouseReleased() {
+
+    if (current !== null) {
+        current.lock = false;
+        current.draw = true;
+        current = null;
+
+        if (playerTurn == "white") {
+            playerTurn = "black";
+        } else {
+            playerTurn = "white";
+        }
+    }
 }
 
 function drawBoard() {
