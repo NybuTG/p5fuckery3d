@@ -11,9 +11,10 @@ class Piece {
 
     update() {
 
-        if (this.lock == false) {
+        if (this.lock === false && this.draw === true) {
             image(this.sprite, this.pos[0] * 100, this.pos[1] * 100, 100, 100);
-        } else {
+        } 
+        else {
             push();
             imageMode(CENTER);
             image(this.sprite, mouseX, mouseY, 100, 100);
@@ -25,10 +26,10 @@ class Piece {
             this.selected = true;
             this.lock = true;
         }
+    }
 
-        else {
-            image(this.sprite, this.pos[0] * 100, this.pos[1] * 100, 100, 100);
-        }
+    hasMoved() {
+        return this.prev.toString() != this.pos.toString()
     }
 }
 

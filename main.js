@@ -53,30 +53,48 @@ function draw() {
 
 let current = null;
 
-function mouseDragged() {
+function mousePressed() {
     if (current !== null) {
         current.draw = false;
-        // rectMode(CENTER);
-        image(current.sprite, mouseX, mouseY, 100, 100);
 
-        current.pos[0] = gridX;
-        current.pos[1] = gridY;
     }
 }
+
+// function mouseDragged() {
+//     if (current !== null) {
+        
+//         // rectMode(CENTER);
+//         // image(current.sprite, mouseX, mouseY, 100, 100);
+
+
+//     }
+// }
 
 function mouseReleased() {
 
     if (current !== null) {
+        
+        current.pos = [gridX, gridY];
         current.lock = false;
         current.draw = true;
+        
+
+        if (current.hasMoved()) {
+            if (playerTurn == "white") {
+                
+                playerTurn = "black"
+                
+            } else if (playerTurn == "black") {
+                playerTurn = "white";
+            }
+
+            current.prev = current.pos;
+        }
+
+
         current = null;
 
-        if (playerTurn == "white") {
-            playerTurn = "black";
-        } else {
-            playerTurn = "white";
-        }
-    }
+    } 
 }
 
 function drawBoard() {
