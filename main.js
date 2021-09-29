@@ -55,45 +55,48 @@ let current = null;
 
 function mousePressed() {
     if (current !== null) {
-        current.draw = false;
-
+        xOffset = mouseX - current.pos[0] * 100
+        yOffset = mouseY - current.pos[1] * 100
+        // current.draw = false;
     }
 }
-
-// function mouseDragged() {
-//     if (current !== null) {
-        
-//         // rectMode(CENTER);
-//         // image(current.sprite, mouseX, mouseY, 100, 100);
-
-
-//     }
-// }
 
 function mouseReleased() {
 
     if (current !== null) {
         
-        current.pos = [gridX, gridY];
+        
         current.lock = false;
         current.draw = true;
         
+        // Check if move was legal
+        let moves = current.fetchLegalMoves();
+        current.pos = [gridX, gridY];
 
-        if (current.hasMoved()) {
+        for (let i=0; i < moves.length; i++) {
+            moves[i] = moves[i].toString()
+        }
+
+        // Swap turns if succesful
+        if (current.hasMoved() && moves.includes(current.pos.toString())) {
+
+            if (current.name == "pawn") {
+                if(current.firstmove) {
+                    current.firstmove = false;
+                }
+            }
+
             if (playerTurn == "white") {
-                
-                playerTurn = "black"
-                
+                playerTurn = "black"    
             } else if (playerTurn == "black") {
                 playerTurn = "white";
             }
 
             current.prev = current.pos;
+        } else {
+            current.pos = current.prev;
         }
-
-
         current = null;
-
     } 
 }
 
