@@ -78,7 +78,7 @@ function mouseReleased() {
         }
 
         // Swap turns if succesful
-        if (current.hasMoved() && moves.includes(current.pos.toString())) {
+        if (moves.includes(current.pos.toString())) {
 
             if (current.name == "pawn") {
                 if(current.firstmove) {

@@ -23,15 +23,10 @@ class Piece {
             pop();
         }
 
-        // https://p5js.org/examples/input-mouse-functions.html
         if (mouseIsPressed && gridX == this.pos[0] && gridY == this.pos[1] && this.color == playerTurn && current === null) {
             this.selected = true;
             this.lock = true;
         }
-    }
-
-    hasMoved() {
-        return this.prev.toString() != this.pos.toString()
     }
 }
 
@@ -53,8 +48,14 @@ class Pawn extends Piece {
             legal.push([this.pos[0], this.pos[1] + 1 * dir]);
         }
 
+
+        let tmp = legal.toString()
         for (let p=0; p < pieces.length; p++) {
-            
+            for (let l=0; l < legal.length; l++) {
+                if (pieces[p].pos.toString === legal[l].toString()) {
+                    array.splice(l, 1)
+                }
+            }
         }
 
         return legal;
