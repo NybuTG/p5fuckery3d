@@ -1,3 +1,4 @@
+
 class Piece {
     constructor(color, pos, sprite) {
         this.color = color;
@@ -38,22 +39,36 @@ class Pawn extends Piece {
 
     fetchLegalMoves() {
         let legal = new Array();
+        legal.push([]);
+        legal.push([]);
         let dir = 1
         if (this.color == "white") { dir = -1 }
 
         if (this.firstmove === true) {
-            legal.push([this.pos[0], this.pos[1] + 1 * dir]);
-            legal.push([this.pos[0], this.pos[1] + 2 * dir]);   
-        } else {
-            legal.push([this.pos[0], this.pos[1] + 1 * dir]);
+            legal[0].push([this.pos[0], this.pos[1] + 1 * dir]);
+            legal[0].push([this.pos[0], this.pos[1] + 2 * dir]);   
+        }
+        
+        else {
+            legal[0].push([this.pos[0], this.pos[1] + 1 * dir]);
         }
 
 
-        let tmp = legal.toString()
+
         for (let p=0; p < pieces.length; p++) {
             for (let l=0; l < legal.length; l++) {
-                if (pieces[p].pos.toString === legal[l].toString()) {
-                    array.splice(l, 1)
+                if (pieces[p].pos.toString() === legal[l].toString()) {
+                    legal[0].splice(l, 1)
+                }
+
+                if ((this.pos[0] + 1).toString() == pieces[p].pos[0].toString() && (this.pos[1] + 1 * dir).toString() == pieces[p].pos[1].toString()) {
+                    legal[0].push(pieces[p].pos);
+                    legal[1].push(pieces[p].pos);
+                }
+
+                if ((this.pos[0] - 1).toString() == pieces[p].pos[0].toString() && (this.pos[1] + 1 * dir).toString() == pieces[p].pos[1].toString()) {
+                    legal[0].push(pieces[p].pos);
+                    legal[1].push(pieces[p].pos);
                 }
             }
         }

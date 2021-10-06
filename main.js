@@ -73,12 +73,15 @@ function mouseReleased() {
         let moves = current.fetchLegalMoves();
         current.pos = [gridX, gridY];
 
+
+        let possible = []
+
         for (let i=0; i < moves.length; i++) {
-            moves[i] = moves[i].toString()
+            possible.push(moves[0][i].toString())
         }
 
         // Swap turns if succesful
-        if (moves.includes(current.pos.toString())) {
+        if (possible.includes(current.pos.toString())) {
 
             if (current.name == "pawn") {
                 if(current.firstmove) {
